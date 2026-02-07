@@ -1,0 +1,206 @@
+/* --- 1. Main Page Layout --- */
+.container {
+  height: 100vh; /* Full viewport height */
+  width: 100%;
+  
+  /* Flexbox to organize vertical layout */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  
+  /* Sky Blue Gradient */
+  background: linear-gradient(135deg, #E0F7FA 0%, #80DEEA 100%);
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  
+  /* Padding creates space around the edges */
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* --- 2. Header Elements --- */
+
+/* Room ID Badge (Top Right or Center) */
+.roomId {
+  background-color: rgba(255, 255, 255, 0.5);
+  padding: 5px 15px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #023e8a;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+}
+
+.heading h2 {
+  color: #0077B6;
+  margin: 0 0 20px 0;
+  font-size: 1.8rem;
+  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
+}
+
+/* --- 3. The Chat Box (Display Area) --- */
+.chatbox {
+  /* Dimensions */
+  width: 100%;
+  max-width: 600px;
+  flex-grow: 1; /* Takes up all available vertical space */
+  min-height: 300px; /* Prevents it from getting too small */
+  
+  /* Glassmorphism Effect */
+  background-color: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  box-shadow: inset 0 0 20px rgba(0, 180, 216, 0.1); /* Inner shadow for depth */
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  
+  /* Scroll behavior */
+  overflow-y: auto; /* Allows scrolling */
+  padding: 20px;
+  margin-bottom: 20px;
+  
+  /* Layout for messages */
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Custom Scrollbar for the Chatbox */
+.chatbox::-webkit-scrollbar {
+  width: 8px;
+}
+.chatbox::-webkit-scrollbar-track {
+  background: rgba(0,0,0,0.05);
+  border-radius: 10px;
+}
+.chatbox::-webkit-scrollbar-thumb {
+  background: rgba(0, 180, 216, 0.3);
+  border-radius: 10px;
+}
+
+/* --- 4. Message Bubbles --- */
+.messageItem {
+  max-width: 70%;
+  padding: 12px 18px;
+  font-size: 16px;
+  line-height: 1.4;
+  word-wrap: break-word; /* Prevents long words breaking layout */
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  
+  /* Sent Message Styling (Right Aligned, Blue) */
+  align-self: flex-end; /* Pushes bubble to the right */
+  background: linear-gradient(135deg, #00B4D8 0%, #0096C7 100%);
+  color: white;
+  
+  /* Bubble Shape: Top-Left, Top-Right, Bottom-Left, Bottom-Right */
+  /* This gives it a "speech bubble" look pointing right */
+  border-radius: 18px 18px 4px 18px; 
+}
+
+/* Animation for new messages */
+.messageItem {
+  animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes popIn {
+  from { opacity: 0; transform: scale(0.8) translateY(10px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* --- 5. Input Area (Footer) --- */
+.message {
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.Messageinput {
+  flex-grow: 1; /* Takes up all space left by the button */
+  padding: 15px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 50px;
+  outline: none;
+  
+  /* White background with shadow */
+  background-color: white;
+  box-shadow: 0 5px 15px rgba(0, 180, 216, 0.1);
+  transition: box-shadow 0.3s ease;
+}
+
+.Messageinput:focus {
+  box-shadow: 0 5px 20px rgba(0, 180, 216, 0.25);
+}
+
+/* Send Button */
+.send {
+  padding: 0 30px;
+  font-size: 16px;
+  font-weight: 700;
+  color: white;
+  background: #023e8a; /* darker blue for contrast */
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 10px rgba(2, 62, 138, 0.3);
+}
+
+.send:hover {
+  background: #0077B6;
+  transform: translateY(-2px);
+}
+
+.send:active {
+  transform: translateY(1px);
+}
+
+/* --- 6. Back Button Area --- */
+
+
+.backButton {
+   position: fixed;   /* stays in place even when scrolling */
+  top: 10px;         /* distance from top */
+  right: 10px;        /* distance from left */
+  font-size: 16px;
+  font-weight: bold;
+  color: #ffffff;
+  background-color: #023e8a;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size:1.3rem;
+}
+
+
+
+.roomId {
+  position: fixed;   /* stays in place even when scrolling */
+  top: 10px;         /* distance from top */
+  left: 10px;        /* distance from left */
+  font-size: 16px;
+  font-weight: bold;
+  color: #ffffff;
+  background-color: #023e8a;
+  padding: 6px 12px;
+  border-radius: 4px;
+}
+
+
+
+
+/* --- Mobile Adjustments --- */
+@media (max-width: 600px) {
+  .container {
+    padding: 10px;
+  }
+  
+  .chatbox {
+    padding: 15px;
+  }
+  
+  .messageItem {
+    max-width: 85%; /* Allow bubbles to be wider on phone */
+  }
+}

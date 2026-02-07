@@ -1,0 +1,110 @@
+/* --- Global Resets & Font --- */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* 1. The Main Background Container
+   - Centers everything horizontally and vertically.
+   - Sets the main Sky Blue gradient background.
+*/
+.back {
+  min-height: 100vh; /* Ensures it fills the screen height */
+  width: 100%;
+  
+  /* Flexbox Centering Magic */
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center;     /* Center vertically */
+  
+  /* Sky Blue Gradient Background */
+  background: linear-gradient(135deg, #E0F7FA 0%, #80DEEA 100%);
+  
+  /* Modern font stack */
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  
+  /* Padding to prevent items touching edges on very small screens */
+  padding: 20px;
+}
+
+/* 2. The Card holding the buttons
+   - Keeps buttons side-by-side initially.
+   - Adds a "glassmorphic" white card look to make buttons pop.
+*/
+.main-box {
+  display: flex;
+  /* Creates space between the buttons */
+  gap: 25px; 
+  
+  /* Card Styling for a premium look */
+  background-color: rgba(255, 255, 255, 0.85); /* Semi-transparent white */
+  padding: 50px;
+  border-radius: 25px; /* Soft, rounded corners */
+  box-shadow: 0 10px 30px rgba(0, 180, 216, 0.2); /* Soft blue shadow underneath */
+  backdrop-filter: blur(10px); /* Blurs background behind card (Glass effect) */
+}
+
+/* 3. Button Styling (Sky Blue Theme) */
+button {
+  /* Sizing and Text */
+  padding: 14px 35px;
+  font-size: 18px;
+  font-weight: 600; /* Semi-bold text */
+  letter-spacing: 0.5px;
+  
+  /* Color and Shape */
+  color: white;
+  background: linear-gradient(to right, #00B4D8, #00A8E8); /* Vibrant sky blue gradient */
+  border: none;
+  border-radius: 50px; /* "Pill" shape rounded corners */
+  
+  /* Interaction */
+  cursor: pointer;
+  transition: all 0.3s ease; /* Smooth transition for hover effects */
+  box-shadow: 0 4px 15px rgba(0, 180, 216, 0.3); /* Subtle glowing shadow */
+}
+
+/* Button Hover State - Makes it feel interactive */
+button:hover {
+  /* Slightly darker/more intense blue on hover */
+  background: linear-gradient(to right, #00A8E8, #0096C7); 
+  
+  /* Lifts the button up slightly */
+  transform: translateY(-3px); 
+  
+  /* Increases shadow to enhance lifting effect */
+  box-shadow: 0 8px 20px rgba(0, 180, 216, 0.5);
+}
+
+/* Button Active State - When clicking down */
+button:active {
+  transform: translateY(1px); /* Pushes down slightly */
+  box-shadow: 0 2px 10px rgba(0, 180, 216, 0.3);
+}
+
+
+/* --- RESPONSIVE DESIGN --- */
+/* On screens smaller than 768px (Tablets and Phones) */
+@media (max-width: 768px) {
+  .main-box {
+    /* Switch from side-by-side (row) to stacked (column) */
+    flex-direction: column;
+    
+    /* Reduce padding on mobile for more space */
+    padding: 30px 20px;
+    width: 100%; /* Card takes full available width */
+    max-width: 400px; /* But doesn't get too wide on tablets */
+  }
+
+  /* Ensure the divs holding the buttons stretch full width */
+  .main-box > div {
+    width: 100%;
+  }
+
+  /* Make buttons full-width for easier tapping on touch screens */
+  button {
+    width: 100%;
+    padding: 16px; /* Slightly larger touch target */
+  }
+}

@@ -1,0 +1,167 @@
+/* --- 1. Main Page Container --- */
+.container {
+  min-height: 100vh;
+  width: 100%;
+  
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  
+  /* Sky Blue Gradient */
+  background: linear-gradient(135deg, #E0F7FA 0%, #80DEEA 100%);
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  padding: 20px;
+}
+
+/* --- 2. Glassmorphic Card --- */
+.Create {
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 40px 40px;
+  border-radius: 24px;
+  
+  /* Glass Effect & Shadow */
+  box-shadow: 0 10px 40px rgba(0, 180, 216, 0.2);
+  backdrop-filter: blur(12px);
+  
+  width: 100%;
+  max-width: 450px;
+  
+  display: flex;
+  flex-direction: column;
+  gap: 25px; /* Spacing between sections */
+}
+
+/* --- 3. Labels & Standard Inputs --- */
+label {
+  display: block;
+  font-size: 16px;
+  font-weight: 600;
+  color: #023e8a;
+  margin-bottom: 8px;
+  margin-left: 4px;
+}
+
+.username {
+  display: flex;
+  flex-direction: column;
+}
+
+.userinput {
+  width: 100%;
+  padding: 14px 20px;
+  font-size: 16px;
+  background-color: #f8f9fa;
+  border: 2px solid #e9ecef;
+  border-radius: 12px;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.userinput:focus {
+  border-color: #00B4D8;
+  background-color: #fff;
+  box-shadow: 0 0 0 4px rgba(0, 180, 216, 0.15);
+}
+
+/* --- 4. New: Generate Code Section --- */
+.generateContainer {
+  display: flex;
+  gap: 10px; /* Space between input and button */
+  align-items: center;
+}
+
+/* The Read-Only Input */
+.generateInput {
+  flex-grow: 1; /* Takes up all available space */
+  padding: 14px 20px;
+  font-size: 16px;
+  background-color: #e9ecef; /* Darker grey to indicate read-only */
+  color: #495057;
+  border: 2px solid #ced4da;
+  border-radius: 12px;
+  outline: none;
+  text-align: center; /* Centers the code for better visibility */
+  letter-spacing: 2px;
+  font-weight: bold;
+}
+
+/* The Generate Button (Small) */
+.generate {
+  padding: 14px 20px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #0077B6;
+  background-color: white;
+  border: 2px solid #00B4D8;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap; /* Prevents text from wrapping */
+}
+
+.generate:hover {
+  background-color: #E0F7FA;
+  box-shadow: 0 4px 10px rgba(0, 180, 216, 0.2);
+}
+
+.generate:active {
+  transform: translateY(1px);
+}
+
+/* --- 5. Main Action Buttons --- */
+
+/* "Create RoomID" Button */
+.createButton {
+  width: 100%;
+  padding: 15px;
+  font-size: 18px;
+  font-weight: 700;
+  color: white;
+  background: linear-gradient(to right, #00B4D8, #00A8E8);
+  border: none;
+  border-radius: 50px; /* Pill shape */
+  cursor: pointer;
+  margin-top: 10px;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 15px rgba(0, 180, 216, 0.3);
+}
+
+.createButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 180, 216, 0.4);
+}
+
+/* "Back" Button */
+.backButton {
+  padding: 10px 30px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #0077B6;
+  background: transparent;
+  border: 2px solid transparent;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.backButton:hover {
+  background-color: rgba(255, 255, 255, 0.5);
+  color: #023e8a;
+}
+
+/* --- Responsive --- */
+@media (max-width: 480px) {
+  .Create {
+    padding: 30px 20px;
+  }
+  
+  .generateContainer {
+    flex-direction: column; /* Stack input and button on very small screens */
+  }
+  
+  .generate {
+    width: 100%; /* Full width button on mobile */
+  }
+}
