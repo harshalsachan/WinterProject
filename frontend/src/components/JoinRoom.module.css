@@ -1,30 +1,20 @@
-/* 1. The Main Page Background */
 .join {
   min-height: 100vh;
   width: 100%;
-  
-  /* Flexbox Centering */
   display: flex;
   justify-content: center;
   align-items: center;
-  
-  /* Sky Blue Gradient Background */
   background: linear-gradient(135deg, #E0F7FA 0%, #80DEEA 100%);
   font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   padding: 20px;
 }
 
-/* 2. The Glassmorphic Card (Body) */
 .body {
-  background-color: rgba(255, 255, 255, 0.9); /* High opacity for readability */
+  background-color: rgba(255, 255, 255, 0.9);
   padding: 40px 50px;
   border-radius: 20px;
-  
-  /* Soft blue shadow & Blur */
   box-shadow: 0 10px 40px rgba(0, 180, 216, 0.2);
   backdrop-filter: blur(12px);
-  
-  /* Size & Layout */
   width: 100%;
   max-width: 450px;
   display: flex;
@@ -32,30 +22,26 @@
   gap: 20px;
 }
 
-/* 3. Heading */
 .heading {
   font-size: 2rem;
-  color: #023e8a; /* Dark Blue */
+  color: #023e8a;
   text-align: center;
   margin: 0 0 10px 0;
   font-weight: 700;
 }
 
-/* 4. Form Layout */
 form {
   display: flex;
   flex-direction: column;
-  gap: 20px; /* Space between form groups */
+  gap: 20px;
 }
 
-/* Target the divs wrapping the labels/inputs for alignment */
 form > div {
   display: flex;
   flex-direction: column;
-  gap: 8px; /* Space between label and input */
+  gap: 8px;
 }
 
-/* Label Styling */
 label {
   font-size: 16px;
   font-weight: 600;
@@ -63,29 +49,24 @@ label {
   margin-left: 4px;
 }
 
-/* 5. Input Fields */
 .input {
   width: 100%;
   padding: 14px 18px;
   font-size: 16px;
   color: #333;
-  background-color: #f8f9fa; /* Light grey */
-  
-  /* Border & Shape */
+  background-color: #f8f9fa;
   border: 2px solid #e9ecef;
   border-radius: 12px;
   outline: none;
   transition: all 0.3s ease;
 }
 
-/* Focus Effect for Inputs */
 .input:focus {
-  border-color: #00B4D8; /* Sky Blue Border */
+  border-color: #00B4D8;
   background-color: #fff;
-  box-shadow: 0 0 0 4px rgba(0, 180, 216, 0.15); /* Glow ring */
+  box-shadow: 0 0 0 4px rgba(0, 180, 216, 0.15);
 }
 
-/* 6. "Join Room" Button (Primary Action) */
 .submit {
   margin-top: 10px;
   width: 100%;
@@ -93,8 +74,6 @@ label {
   font-size: 18px;
   font-weight: 600;
   color: white;
-  
-  /* Gradient Background */
   background: linear-gradient(to right, #00B4D8, #00A8E8);
   border: none;
   border-radius: 50px;
@@ -109,7 +88,6 @@ label {
   box-shadow: 0 6px 20px rgba(0, 180, 216, 0.4);
 }
 
-/* 7. "Back to Home" Button (Secondary Action) */
 .back {
   width: 100%;
   padding: 12px;
@@ -125,14 +103,13 @@ label {
 }
 
 .back:hover {
-  background-color: #E0F7FA; /* Very light blue background */
+  background-color: #E0F7FA;
   color: #023e8a;
 }
 
-/* --- Responsive Mobile Tweaks --- */
 @media (max-width: 480px) {
   .body {
-    padding: 30px 20px; /* Reduce padding on small screens */
+    padding: 30px 20px;
   }
   
   .heading {

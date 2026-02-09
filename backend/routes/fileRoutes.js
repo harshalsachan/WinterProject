@@ -1,9 +1,11 @@
-const express =  require('express');
-const fileRouter = express.Router();
+﻿const express = require('express');
+const router = express.Router();
 const fileController = require('../controllers/Filectrl');
 
-fileRouter.post('/upload', fileController.uploadFile);
-fileRouter.get('/download', fileController.downloadFile);
+router.post('/upload', fileController.uploadFile);
 
-module.exports = fileRouter;
+
+router.get('/download/:fileId', fileController.getFile);
+
+module.exports = router;
 

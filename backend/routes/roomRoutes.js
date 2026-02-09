@@ -1,8 +1,10 @@
-const express =  require('express');
-const roomRouter = express.Router();
-const roomController = require('../controllers/Filectrl');
+﻿const express = require("express");
+const router = express.Router();
 
-roomRouter.post('/upload', roomController.uploadFile);
-roomRouter.get('/download', roomController.downloadFile);
+const roomController = require("../controllers/Roomctrl");
 
-module.exports = roomRouter;
+router.post("/create", roomController.createRoom);
+
+router.post("/join", roomController.joinRoom);
+
+module.exports = router;

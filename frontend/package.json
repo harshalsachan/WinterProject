@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "gun": "^0.2020.1241",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-router-dom": "^7.13.0"
@@ -26,3 +27,4 @@
     "vite": "^7.2.4"
   }
 }
+

@@ -1,53 +1,62 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styles from "./JoinRoom.module.css";
+import { joinRoomApi } from "../api";
 
 function JoinRoom() {
   const navigate = useNavigate();
-  const [userName, setUserName] = useState('');
-  const [roomCode, setRoomCode] = useState('');
+  const [userName, setUserName] = useState("");
+  const [roomCode, setRoomCode] = useState("");
+  const [error, setError] = useState("");
 
-  const handleJoinRoom = (e) => {
+  const handleJoinRoom = async (e) => {
     e.preventDefault();
-    if (userName && roomCode) {
-      // Add your room joining logic here
-      alert(`${userName} is joining room: ${roomCode}`);
+
+    setError("");
+
+    if (!userName || !roomCode) {
+      setError("Please fill in all fields.");
+      return;
     }
-  };
-  const handleRoom =() =>{
-   navigate('/room');
+
+    try {
+      const data = await joinRoomApi(roomCode, userName);
+
+      console.log("Joined Room Successfully:", data);
+
+      navigate(`/room/${roomCode}`, { state: { username: userName } });
+    } catch (err) {
+      console.error(err);
+      setError(err.message);
+    }
   };
 
   const handleBack = () => {
-    navigate('/');
+    navigate("/");
   };
 
   return (
     <div className={styles.join}>
       <div className={styles.body}>
-        <h1 className={styles.heading}>
-          Join a Room
-        </h1>
-        
-        <form onSubmit={handleJoinRoom} >
+        <h1 className={styles.heading}>Join a Room</h1>
+
+        {error && <p style={{ color: "red" }}>{error}</p>}
+
+        <form onSubmit={handleJoinRoom}>
           <div>
-            <label >
-               Name
-            </label>
+            <label>Name</label>
             <input
               type="text"
               value={userName}
               onChange={(e) => setUserName(e.target.value)}
               placeholder="Enter your name"
-             className={styles.input}
+              className={styles.input}
               required
             />
           </div>
 
           <div>
-            <label >
-              Room Code
-            </label>
+            <label>Room Code</label>
             <input
               type="text"
               value={roomCode}
@@ -59,19 +68,12 @@ function JoinRoom() {
             />
           </div>
 
-          <button
-            type="submit"
-            className={styles.submit}
-            onClick={handleRoom}
-          >
+          <button type="submit" className={styles.submit}>
             Join Room
           </button>
         </form>
 
-        <button
-          onClick={handleBack}
-          className={styles.back}
-        >
+        <button onClick={handleBack} className={styles.back}>
           Back to Home
         </button>
       </div>

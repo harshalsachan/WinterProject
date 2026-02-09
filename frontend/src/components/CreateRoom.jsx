@@ -1,96 +1,71 @@
 import { useNavigate } from "react-router-dom";
 import styles from "./CreateRoom.module.css";
 import { useState } from "react";
+import { createRoomApi } from "../api";
 
 const CreateRoom = () => {
   const navigate = useNavigate();
-  const [roomCode, setRoomCode] = useState("");
   const [userName, setUserName] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  const generateRoomCode = () => {
-    const code = Math.random().toString(36).substring(2, 8).toUpperCase();
-    setRoomCode(code);
-  };
-
-  const handleCreateRoom = (e) => {
+  const handleCreateRoom = async (e) => {
     e.preventDefault();
-    // Use the generated code if available, or generate one now
-    if (userName) {
-        // You might want to call generateRoomCode() here if it's not done yet
-        alert(`Room "${userName}" created!`);
+    if (!userName.trim()) return;
+
+    setIsLoading(true);
+
+    try {
+      const data = await createRoomApi(userName);
+
+      console.log("Room Created Successfully:", data);
+
+      navigate(`/room/${data.roomCode}`, { state: { username: userName } });
+    } catch (error) {
+      alert("Error: " + error.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const handleBack = () => {
-    navigate('/');
-  };
-   const handleRoom = () => {
-    navigate('/room');
+    navigate("/");
   };
 
   return (
-    /* 1. Added Main Container Wrapper */
     <div className={styles.container}>
-      
       <div className={styles.Create}>
-        <div className={styles.username}>
-          <label htmlFor="username" className={styles.userlabel}>
-            Enter Username
-          </label>
-          <input 
-            type="text" 
-            className={styles.userinput} 
-            id="username" 
-            value={userName}
-            onChange={(e) => setUserName(e.target.value)}
-            placeholder="Enter your name"
-            required
-          />
-        </div>
-         <div>
-            <label htmlFor="roomcode">
-              Room Code
+        <form onSubmit={handleCreateRoom}>
+          <div className={styles.username}>
+            <label htmlFor="username" className={styles.userlabel}>
+              Enter Username
             </label>
-            <div className={styles.generateContainer}>
-              <input
-                type="text"
-                value={roomCode}
-                readOnly
-                placeholder="Generate a code"
-                className={styles.generateInput}
-              />
-              <button
-                type="button"
-                onClick={generateRoomCode}
-                className={styles.generate}
-              >
-                Generate
-              </button>
-            </div>
+            <input
+              type="text"
+              className={styles.userinput}
+              id="username"
+              value={userName}
+              onChange={(e) => setUserName(e.target.value)}
+              placeholder="Enter your name"
+              required
+            />
           </div>
-        
-        
-        <div>
-         
-          <button 
-            className={styles.createButton} 
-            onClick={handleRoom}
-          >
-            Open Room
-          </button>
-        </div>
-      </div>
 
+          <div style={{ marginTop: "20px" }}>
+            <button
+              type="submit"
+              className={styles.createButton}
+              disabled={isLoading}
+            >
+              {isLoading ? "Creating..." : "Create & Open Room"}
+            </button>
+          </div>
+        </form>
+      </div>
       <div>
-        
-        <button 
-            className={styles.backButton} 
-            onClick={handleBack}
-        >
-            Back
+        <button className={styles.backButton} onClick={handleBack}>
+          Back
         </button>
       </div>
-
     </div>
   );
 };

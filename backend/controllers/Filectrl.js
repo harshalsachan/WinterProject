@@ -1,157 +1,126 @@
-const express= require('express');
-const pako = require('pako');
-const fs = require('fs');
+﻿const pako = require('pako');
 
-function dataCompression(data){
+function dataCompression(data) {
   const compressedData = pako.gzip(data);
   return Buffer.from(compressedData).toString('base64');
 }
 
-function decompressData(compressedBase64){
+function decompressData(compressedBase64) {
   const compressed = Buffer.from(compressedBase64, 'base64');
   const decompressed = pako.ungzip(compressed);
-  return Buffer.from(decompressed);
+  return Buffer.from(decompressed).toString('utf8');
 }
 
-function chunkData(data, chunkSize = 100000){
-  const chunks=[];
-  for(let i=0;i<data.length; i=i+chunkSize){
-    chunks.push(data.substring(i,i+chunkSize));
+function chunkData(data, chunkSize = 100000) {
+  const chunks = [];
+  for (let i = 0; i < data.length; i += chunkSize) {
+    chunks.push(data.substring(i, i + chunkSize));
   }
   return chunks;
 }
 
-function generateFileID(){
-  return Date.now()+'-'+Math.random().toString(36).substring(7);
-}
-
-exports.uploadFile = (req,res,next)=>{
-  try{
-  const {fileName, fileType, fileSize, fileData} = req.body;
-  const gun  = global.gun;
-  const fileID = generateFileID();
-  const compressedData = dataCompression(fileData);
-
-  const chunks = chunkData(compressedData);
-  const fileuploadTime = Date.now();
-
-  const fileMetaData = 
-  {
-    fileId: fileID,
-    fileName: fileName,
-    fileType: fileType,
-    fileSize: fileSize,
-    originalLength : fileData.length,
-    chunksCount: chunks.length,
-    uploadedAt: fileuploadTime
-  };
-  
-  gun.get('files').get(fileID).put({metadata:fileMetaData})
-
-
-  for(let i =0;i<chunks.length;i++){
-    gun.get('files').get(fileID).get(i.toString()).put({
-      chunkData: chunks[i],
-      index:i
-    });
-    if ((i + 1) % 10 === 0 || i === chunks.length - 1) {
-                console.log(`✅ Stored chunk ${i + 1}/${chunks.length}`);
-            }
-  }
-
-  res.json({
-    status:'success',
-    fileMetaData: fileMetaData,
-    fileID:fileID
-  })
- }catch(error){
-  console.log(error);
-  res.json({status:'error', error:error});
- }
-
-}
-
-exports.getFile = (req,res,next)=>{
+exports.uploadFile = (req, res) => {
   try {
-        const fileId = req.params.fileId;
-        console.log(`📥 Downloading file: ${fileId}`);
+    const { fileName, fileType, fileSize, fileData } = req.body;
+    const gun = global.gun;
+    
+    const fileID = Date.now() + '-' + Math.random().toString(36).substring(7);
 
-        // Get metadata from Gun
-        gun.get('files').get(fileId).once(async (metadata) => {
-            if (!metadata || !metadata.fileId) {
-                return res.status(404).json({
-                    success: false,
-                    message: 'File not found'
-                });
-            }
+    console.log(`📤 Processing Upload: ${fileName} (${fileSize} bytes)`);
 
-            console.log(`📊 File: ${metadata.fileName}`);
-            console.log(`📦 Chunks: ${metadata.chunksCount}`);
+    const compressedData = dataCompression(fileData);
+    const chunks = chunkData(compressedData);
+    
+    const fileMetaData = {
+      fileId: fileID,
+      fileName: fileName,
+      fileType: fileType,
+      fileSize: fileSize,
+      chunksCount: chunks.length,
+      uploadedAt: Date.now()
+    };
 
-            // Retrieve all chunks
-            const chunks = [];
-            let retrievedCount = 0;
-            const timeout = setTimeout(() => {
-                if (retrievedCount < metadata.chunksCount) {
-                    res.status(500).json({
-                        success: false,
-                        message: 'Timeout retrieving file chunks'
-                    });
-                }
-            }, 30000); // 30 second timeout
+    gun.get('files').get(fileID).put({ metadata: fileMetaData });
 
-            for (let i = 0; i < metadata.chunksCount; i++) {
-                gun.get('files').get(fileId).get('chunks').get(i.toString()).once((chunkData) => {
-                    if (chunkData && chunkData.data) {
-                        chunks[chunkData.index] = chunkData.data;
-                        retrievedCount++;
-
-                        if ((retrievedCount) % 10 === 0 || retrievedCount === metadata.chunksCount) {
-                            console.log(`✅ Retrieved chunk ${retrievedCount}/${metadata.chunksCount}`);
-                        }
-
-                        // When all chunks retrieved
-                        if (retrievedCount === metadata.chunksCount) {clearTimeout(timeout);
-                            
-                            try {
-                                console.log(`🔗 Combining ${chunks.length} chunks...`);
-                                
-                                // Combine all chunks
-                                const compressedData = chunks.join('');
-
-                                console.log(`📤 Decompressing data...`);
-                                
-                                // Decompress
-                                const decompressed = decompressData(compressedData);
-
-                                console.log(`✅ File decompressed successfully`);
-                                console.log(`📊 Decompressed length: ${decompressed.length}`);
-
-                                // Send as JSON with base64 data
-                                res.json({
-                                    success: true,
-                                    fileName: metadata.fileName,fileType: metadata.fileType,
-                                    fileData: decompressed
-                                });
-
-                            } catch (error) {
-                                console.error('❌ Decompression error:', error);
-                                res.status(500).json({
-                                    success: false,
-                                    message: 'Decompression failed: ' + error.message
-                                });
-                            }
-                        }
-                    }
-                });
-            }
-        });
-      } catch (error) {
-        console.error('❌ Download error:', error);
-        res.status(500).json({
-            success: false,
-            message: error.message
-        });
+    for (let i = 0; i < chunks.length; i++) {
+      gun.get('files').get(fileID).get('chunks').get(i.toString()).put({
+        chunkData: chunks[i],
+        index: i
+      });
     }
 
-}
+    console.log(`✅ File Compressed & Stored. ID: ${fileID}`);
+
+    res.json({
+      status: 'success',
+      fileMetaData: fileMetaData,
+      fileID: fileID
+    });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ status: 'error', error: error.message });
+  }
+};
+
+exports.getFile = (req, res) => {
+  try {
+    const fileId = req.params.fileId;
+    const gun = global.gun;
+    
+    console.log(`📥 Fetching file: ${fileId}`);
+
+    gun.get('files').get(fileId).get('metadata').once((metadata) => {
+      if (!metadata || !metadata.fileId) {
+        return res.status(404).json({ success: false, message: 'File not found' });
+      }
+
+      const totalChunks = metadata.chunksCount;
+      let loadedChunks = [];
+      let retrievedCount = 0;
+
+      const timeout = setTimeout(() => {
+        if (retrievedCount < totalChunks) {
+           res.status(500).json({ success: false, message: 'Timeout fetching chunks' });
+        }
+      }, 15000);
+
+      for (let i = 0; i < totalChunks; i++) {
+        gun.get('files').get(fileId).get('chunks').get(i.toString()).once((data) => {
+          if (data && data.chunkData) {
+            loadedChunks[data.index] = data.chunkData;
+            retrievedCount++;
+
+            if (retrievedCount === totalChunks) {
+              clearTimeout(timeout);
+              
+              try {
+                const fullCompressed = loadedChunks.join('');
+                const finalData = decompressData(fullCompressed);
+
+                res.json({
+                  success: true,
+                  fileName: metadata.fileName,
+                  fileType: metadata.fileType,
+                  fileData: finalData
+                });
+
+              } catch (err) {
+                 res.status(500).json({ success: false, message: 'Decompression failed' });
+              }
+            }
+          }
+        });
+      }
+    });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+
+
+
+

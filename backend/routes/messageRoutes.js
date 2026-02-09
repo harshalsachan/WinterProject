@@ -1,8 +1,10 @@
-const express =  require('express');
-const messRouter = express.Router();
-const messController = require('../controllers/Filectrl');
+﻿const express = require("express");
+const router = express.Router();
 
-messRouter.post('/upload', messController.uploadFile);
-messRouter.get('/download', messController.downloadFile);
+const messageController = require("../controllers/Messagectrl");
 
-module.exports = messRouter;
+router.post("/send", messageController.sendMessage);
+
+router.post("/receive", messageController.receiveMessage);
+
+module.exports = router;

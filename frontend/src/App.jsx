@@ -13,7 +13,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/create-room" element={<CreateRoom />} />
         <Route path="/join-room" element={<JoinRoom />} />
-        <Route path="/room" element={<Room />} />
+        <Route path="/room/:roomId" element={<Room />} />
       </Routes>
     </Router>
   );
