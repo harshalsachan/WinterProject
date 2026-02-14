@@ -1,118 +1,186 @@
+/* --- 1. Import Fonts --- */
+@import url('https://fonts.googleapis.com/css2?family=Audiowide&family=Poppins:wght@300;400;600&display=swap');
+
+/* --- 2. Main Page Container --- */
 .join {
   min-height: 100vh;
   width: 100%;
+  
+  /* Flexbox Centering */
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(135deg, #E0F7FA 0%, #80DEEA 100%);
-  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  
+  /* Deep Space Background */
+  /* Using a slightly different space image for visual variety */
+  background: 
+    linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.85)),
+    url('https://images.unsplash.com/photo-1462331940025-496dfbfc7564?q=80&w=2022&auto=format&fit=crop');
+  
+  background-size: cover;
+  background-position: center;
+  font-family: 'Poppins', sans-serif;
   padding: 20px;
 }
 
+/* --- 3. The Glass Card (Body) --- */
 .body {
-  background-color: rgba(255, 255, 255, 0.9);
-  padding: 40px 50px;
-  border-radius: 20px;
-  box-shadow: 0 10px 40px rgba(0, 180, 216, 0.2);
-  backdrop-filter: blur(12px);
   width: 100%;
   max-width: 450px;
+  
+  /* Glassmorphism HUD Style */
+  background: rgba(25, 25, 35, 0.6); /* Darker tint for readability */
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
+  
+  /* Neon Glow Shadow */
+  box-shadow: 
+    0 20px 50px rgba(0, 0, 0, 0.6),
+    0 0 0 1px rgba(138, 43, 226, 0.2); /* Purple rim */
+    
+  padding: 40px 50px;
   display: flex;
   flex-direction: column;
   gap: 20px;
+  
+  /* Animation */
+  animation: slideIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+@keyframes slideIn {
+  0% { opacity: 0; transform: scale(0.9); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+/* --- 4. Heading --- */
 .heading {
-  font-size: 2rem;
-  color: #023e8a;
+  font-family: 'Audiowide', cursive;
+  font-size: 2.2rem;
   text-align: center;
   margin: 0 0 10px 0;
-  font-weight: 700;
+  letter-spacing: 2px;
+  
+  /* Gradient Text: Cyan to Purple */
+  background: linear-gradient(to right, #00d2ff, #928DAB);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  
+  filter: drop-shadow(0 0 10px rgba(0, 210, 255, 0.3));
 }
 
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-form > div {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
+/* --- 5. Labels & Inputs --- */
 label {
-  font-size: 16px;
-  font-weight: 600;
-  color: #0077B6;
-  margin-left: 4px;
+  display: block;
+  font-family: 'Audiowide', cursive;
+  font-size: 14px;
+  color: #00d2ff; /* Cyan Text */
+  margin-bottom: 8px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
 }
 
 .input {
   width: 100%;
-  padding: 14px 18px;
+  padding: 15px 20px;
   font-size: 16px;
-  color: #333;
-  background-color: #f8f9fa;
-  border: 2px solid #e9ecef;
+  font-family: 'Poppins', sans-serif;
+  color: #fff;
+  
+  /* Dark Input Background */
+  background: rgba(0, 0, 0, 0.5);
+  border: 2px solid rgba(255, 255, 255, 0.1);
   border-radius: 12px;
   outline: none;
   transition: all 0.3s ease;
 }
 
-.input:focus {
-  border-color: #00B4D8;
-  background-color: #fff;
-  box-shadow: 0 0 0 4px rgba(0, 180, 216, 0.15);
+.input::placeholder {
+  color: rgba(255, 255, 255, 0.3);
 }
 
+/* Input Focus Effects */
+.input:focus {
+  border-color: #9d50bb; /* Purple Border */
+  background: rgba(0, 0, 0, 0.7);
+  box-shadow: 0 0 20px rgba(157, 80, 187, 0.4); /* Purple Glow */
+  transform: translateY(-2px);
+}
+
+/* --- 6. Primary Button (Join) --- */
 .submit {
   margin-top: 10px;
   width: 100%;
-  padding: 14px;
+  padding: 16px;
+  font-family: 'Audiowide', cursive;
   font-size: 18px;
-  font-weight: 600;
+  text-transform: uppercase;
   color: white;
-  background: linear-gradient(to right, #00B4D8, #00A8E8);
   border: none;
   border-radius: 50px;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(0, 180, 216, 0.3);
+  
+  /* Gradient: Purple to Cyan */
+  background: linear-gradient(90deg, #6e48aa, #9d50bb); 
+  box-shadow: 0 5px 20px rgba(110, 72, 170, 0.4);
 }
 
 .submit:hover {
-  background: linear-gradient(to right, #00A8E8, #0096C7);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0, 180, 216, 0.4);
+  transform: translateY(-3px) scale(1.02);
+  background: linear-gradient(90deg, #9d50bb, #6e48aa);
+  box-shadow: 0 10px 30px rgba(157, 80, 187, 0.6);
 }
 
+.submit:active {
+  transform: translateY(1px);
+}
+
+/* --- 7. Secondary Button (Back) --- */
 .back {
   width: 100%;
   padding: 12px;
-  font-size: 16px;
-  font-weight: 600;
-  color: #0077B6;
+  margin-top: 10px;
   background: transparent;
-  border: 2px solid transparent;
+  font-family: 'Audiowide', cursive;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 50px;
   cursor: pointer;
-  transition: all 0.2s ease;
-  margin-top: 5px;
+  transition: all 0.3s ease;
+  letter-spacing: 1px;
 }
 
 .back:hover {
-  background-color: #E0F7FA;
-  color: #023e8a;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border-color: #fff;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
 }
 
+/* --- 8. Error Message Customization --- */
+/* If you want to replace the inline style later, add className={styles.error} to the <p> tag */
+.body p {
+  background: rgba(255, 0, 0, 0.1);
+  border-left: 3px solid #ff4444;
+  color: #ffcccc !important; /* Force readable color over dark bg */
+  padding: 10px;
+  border-radius: 4px;
+  font-size: 14px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+/* --- 9. Mobile Responsiveness --- */
 @media (max-width: 480px) {
   .body {
     padding: 30px 20px;
   }
   
   .heading {
-    font-size: 1.75rem;
+    font-size: 1.8rem;
   }
 }

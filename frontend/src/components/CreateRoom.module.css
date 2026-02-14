@@ -1,154 +1,177 @@
+/* --- 1. Import Fonts --- */
+@import url('https://fonts.googleapis.com/css2?family=Audiowide&family=Poppins:wght@300;400;600&display=swap');
+
+/* --- 2. Main Page Container (The Space Background) --- */
 .container {
   min-height: 100vh;
   width: 100%;
   
+  /* Flexbox Centering */
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 20px;
+  gap: 30px;
   
-  background: linear-gradient(135deg, #E0F7FA 0%, #80DEEA 100%);
-  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  /* Deep Space Gradient + Grid Overlay */
+  background: 
+    linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.9)),
+    url('https://images.unsplash.com/photo-1534972195531-d756b9bfa9f2?q=80&w=2070&auto=format&fit=crop');
+  
+  background-size: cover;
+  background-position: center;
+  font-family: 'Poppins', sans-serif;
   padding: 20px;
 }
 
+/* --- 3. The Glass Card (Form Wrapper) --- */
 .Create {
-  background-color: rgba(255, 255, 255, 0.9);
-  padding: 40px 40px;
-  border-radius: 24px;
-  
-  box-shadow: 0 10px 40px rgba(0, 180, 216, 0.2);
-  backdrop-filter: blur(12px);
-  
   width: 100%;
   max-width: 450px;
   
-  display: flex;
-  flex-direction: column;
-  gap: 25px;
+  /* Glass Effect */
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
+  
+  /* Glowing Shadow */
+  box-shadow: 
+    0 20px 50px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(255, 255, 255, 0.05); /* Inner rim */
+    
+  padding: 40px;
+  
+  /* Entrance Animation */
+  animation: floatUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-label {
+@keyframes floatUp {
+  0% { opacity: 0; transform: translateY(30px) scale(0.95); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* --- 4. Form Elements --- */
+
+/* Label Styling */
+.userlabel {
   display: block;
-  font-size: 16px;
-  font-weight: 600;
-  color: #023e8a;
-  margin-bottom: 8px;
-  margin-left: 4px;
+  font-family: 'Audiowide', cursive; /* Sci-fi font */
+  color: #00f260; /* Neon Green */
+  font-size: 1.2rem;
+  letter-spacing: 1px;
+  margin-bottom: 15px;
+  text-shadow: 0 0 10px rgba(0, 242, 96, 0.3);
 }
 
-.username {
-  display: flex;
-  flex-direction: column;
-}
-
+/* Input Styling */
 .userinput {
   width: 100%;
-  padding: 14px 20px;
+  padding: 16px 20px;
   font-size: 16px;
-  background-color: #f8f9fa;
-  border: 2px solid #e9ecef;
+  font-family: 'Poppins', sans-serif;
+  color: #fff;
+  
+  /* Dark semi-transparent background */
+  background: rgba(0, 0, 0, 0.4);
+  border: 2px solid rgba(255, 255, 255, 0.1);
   border-radius: 12px;
   outline: none;
   transition: all 0.3s ease;
 }
 
+.userinput::placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+/* Input Focus State (Neon Glow) */
 .userinput:focus {
-  border-color: #00B4D8;
-  background-color: #fff;
-  box-shadow: 0 0 0 4px rgba(0, 180, 216, 0.15);
+  border-color: #0575E6; /* Neon Blue */
+  background: rgba(0, 0, 0, 0.6);
+  box-shadow: 0 0 20px rgba(5, 117, 230, 0.4); /* Blue Glow */
+  transform: translateY(-2px);
 }
 
-.generateContainer {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-}
+/* --- 5. Buttons --- */
 
-.generateInput {
-  flex-grow: 1;
-  padding: 14px 20px;
-  font-size: 16px;
-  background-color: #e9ecef;
-  color: #495057;
-  border: 2px solid #ced4da;
-  border-radius: 12px;
-  outline: none;
-  text-align: center;
-  letter-spacing: 2px;
-  font-weight: bold;
-}
-
-.generate {
-  padding: 14px 20px;
-  font-size: 14px;
-  font-weight: 700;
-  color: #0077B6;
-  background-color: white;
-  border: 2px solid #00B4D8;
-  border-radius: 12px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  white-space: nowrap;
-}
-
-.generate:hover {
-  background-color: #E0F7FA;
-  box-shadow: 0 4px 10px rgba(0, 180, 216, 0.2);
-}
-
-.generate:active {
-  transform: translateY(1px);
-}
-
+/* Primary Action: Create Room */
 .createButton {
   width: 100%;
-  padding: 15px;
+  padding: 18px;
+  font-family: 'Audiowide', cursive;
   font-size: 18px;
-  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
   color: white;
-  background: linear-gradient(to right, #00B4D8, #00A8E8);
   border: none;
   border-radius: 50px;
   cursor: pointer;
-  margin-top: 10px;
-  transition: transform 0.2s, box-shadow 0.2s;
-  box-shadow: 0 4px 15px rgba(0, 180, 216, 0.3);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s ease;
+  
+  /* Animated Gradient Background */
+  background: linear-gradient(45deg, #0575E6, #00f260, #0575E6);
+  background-size: 200% 200%;
+  animation: gradientShift 3s ease infinite;
+  
+  box-shadow: 0 5px 20px rgba(5, 117, 230, 0.4);
 }
 
-.createButton:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(0, 180, 216, 0.4);
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
+.createButton:hover:not(:disabled) {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 10px 30px rgba(0, 242, 96, 0.5); /* Intense Green Glow */
+}
+
+.createButton:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+/* Disabled State (Loading) */
+.createButton:disabled {
+  background: #333;
+  color: #666;
+  cursor: not-allowed;
+  box-shadow: none;
+  animation: none;
+}
+
+/* Secondary Action: Back Button */
 .backButton {
-  padding: 10px 30px;
-  font-size: 16px;
-  font-weight: 600;
-  color: #0077B6;
   background: transparent;
-  border: 2px solid transparent;
-  border-radius: 50px;
+  font-family: 'Audiowide', cursive;
+  color: rgba(255, 255, 255, 0.7);
+  padding: 12px 30px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 30px;
+  font-size: 14px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 2px;
 }
 
 .backButton:hover {
-  background-color: rgba(255, 255, 255, 0.5);
-  color: #023e8a;
+  background: white;
+  color: black;
+  border-color: white;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
 }
 
+/* --- 6. Mobile Responsiveness --- */
 @media (max-width: 480px) {
   .Create {
     padding: 30px 20px;
   }
   
-  .generateContainer {
-    flex-direction: column;
-  }
-  
-  .generate {
-    width: 100%;
+  .userlabel {
+    font-size: 1rem;
   }
 }

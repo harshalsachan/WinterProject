@@ -1,173 +1,344 @@
+/* --- 1. Import Fonts --- */
+@import url('https://fonts.googleapis.com/css2?family=Audiowide&family=Poppins:wght@300;400;600&display=swap');
+
+/* --- 2. Main Container (Command Center) --- */
+/* --- 2. Main Container (Command Center) --- */
+/* --- 2. Main Container (The Visuals) --- */
 .container {
-  min-height: 100vh;
+  height: 100vh;
   width: 100%;
+  
+  /* Flex Layout */
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  background: linear-gradient(135deg, #E0F7FA 0%, #80DEEA 100%);
-  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  
+  /* THE BACKGROUND IMAGE FIX */
+  /* We stack a gradient ON TOP of the image. */
+  /* The gradient (rgba 0,0,0,0.7) darkens the photo so text pops. */
+  background: 
+    linear-gradient(to bottom, rgba(10, 10, 20, 0.7), rgba(0, 0, 0, 0.9)),
+    url('https://images.unsplash.com/photo-1555680202-c86f0e12f086?q=80&w=2070&auto=format&fit=crop');
+    
+  background-size: cover;       /* Ensures image fills the screen */
+  background-position: center;  /* Centers the cool part of the image */
+  background-repeat: no-repeat;
+  background-attachment: fixed; /* Parallax effect */
+  
+  font-family: 'Poppins', sans-serif;
   padding: 20px;
+  overflow: hidden;
   position: relative;
 }
 
-.idContainer {
+/* Optional: Add a subtle grid animation over the city to make it feel "alive" */
+.container::before {
+  content: "";
   position: absolute;
-  top: 30px;
-  left: 30px;
-  z-index: 10;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 50px 50px;
+  pointer-events: none; /* Allows you to click through it */
+  z-index: 0;
 }
 
-.roomId {
-  background-color: rgba(255, 255, 255, 0.85);
-  padding: 10px 20px;
-  border-radius: 50px;
-  font-size: 16px;
-  font-weight: 700;
-  color: #0077B6;
-  letter-spacing: 0.5px;
-  box-shadow: 0 4px 15px rgba(0, 180, 216, 0.2);
-  border: 1px solid rgba(255, 255, 255, 1);
-  backdrop-filter: blur(5px);
+/* Ensure content sits above the grid */
+.heading, .chatbox, .message, .backBox {
+  z-index: 1;
+}
+
+/* --- 3. Header Section --- */
+.heading {
+  width: 100%;
+  max-width: 800px;
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 8px;
-}
-
-.roomId::before {
-  content: '#';
-  font-size: 18px;
-  color: #00B4D8;
+  
+  /* Glass Panel */
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 15px 25px;
+  margin-bottom: 20px;
+  
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
 
 .heading h2 {
-  color: #023e8a;
-  margin: 0 0 20px 0;
-  font-size: 2rem;
-  font-weight: 700;
-  text-shadow: 0 2px 4px rgba(0, 180, 216, 0.1);
+  font-family: 'Audiowide', cursive;
+  color: #00f260; /* Neon Green */
+  font-size: 1.5rem;
+  margin: 0;
+  text-shadow: 0 0 10px rgba(0, 242, 96, 0.4);
 }
 
+.subHeading {
+  color: #00d2ff;
+  font-size: 0.9rem;
+  margin: 0;
+  font-family: 'Audiowide', cursive;
+}
+
+/* Pulse Animation for Connection Dot */
+.heading span {
+  box-shadow: 0 0 10px currentColor;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(0.95); opacity: 0.7; }
+  50% { transform: scale(1.2); opacity: 1; }
+  100% { transform: scale(0.95); opacity: 0.7; }
+}
+
+/* --- 4. Chatbox (The Data Feed) --- */
 .chatbox {
+  flex-grow: 1;
   width: 100%;
-  max-width: 600px;
-  height: 60vh;
-  background-color: rgba(255, 255, 255, 0.65);
-  backdrop-filter: blur(12px);
-  border-radius: 24px;
-  box-shadow: 0 8px 32px rgba(0, 180, 216, 0.15);
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  overflow-y: auto;
-  padding: 25px;
+  max-width: 800px;
+  
+  /* Increased visibility */
+  background: rgba(20, 20, 30, 0.4); /* Slightly darker tint */
+  border: 1px solid rgba(255, 255, 255, 0.15); /* Brighter border */
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5); /* Stronger shadow */
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+  
+  padding: 20px;
   margin-bottom: 20px;
+  overflow-y: auto;
+  
   display: flex;
   flex-direction: column;
   gap: 15px;
 }
 
+/* Custom Scrollbar */
 .chatbox::-webkit-scrollbar {
   width: 6px;
 }
-
 .chatbox::-webkit-scrollbar-thumb {
-  background-color: rgba(0, 180, 216, 0.3);
+  background: rgba(0, 242, 96, 0.3);
   border-radius: 10px;
 }
 
-.messageItem {
-  max-width: 75%;
-  padding: 12px 20px;
-  font-size: 16px;
-  line-height: 1.5;
+/* --- 5. Message Bubbles --- */
+
+/* Common Styles for Sender Name */
+.senderName {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 4px;
+  display: block;
+  font-family: 'Audiowide', cursive;
+}
+
+/* MY MESSAGES (Right Side - Cyber Blue/Green) */
+.myMessage {
   align-self: flex-end;
-  background: linear-gradient(135deg, #00B4D8 0%, #0096C7 100%);
+  max-width: 70%;
+  
+  /* Gradient Bubble */
+  background: linear-gradient(135deg, rgba(5, 117, 230, 0.9), rgba(0, 242, 96, 0.8));
   color: white;
-  border-radius: 20px 20px 4px 20px;
-  box-shadow: 0 4px 10px rgba(0, 180, 216, 0.2);
-  animation: popIn 0.3s ease-out forwards;
+  
+  padding: 12px 18px;
+  border-radius: 18px 18px 2px 18px; /* Speech bubble shape */
+  box-shadow: 0 5px 15px rgba(0, 242, 96, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  
+  animation: popInRight 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-@keyframes popIn {
-  0% { transform: scale(0.8) translateY(10px); opacity: 0; }
-  100% { transform: scale(1) translateY(0); opacity: 1; }
+.myMessage .senderName {
+  text-align: right;
+  color: rgba(255, 255, 255, 0.8);
 }
 
-.message {
-  width: 100%;
-  max-width: 600px;
+/* OTHER MESSAGES (Left Side - Deep Purple) */
+.otherMessage {
+  align-self: flex-start;
+  max-width: 70%;
+  
+  /* Darker Glass Bubble */
+  background: rgba(30, 30, 45, 0.85);
+  backdrop-filter: blur(5px);
+  color: #e0e0e0;
+  
+  padding: 12px 18px;
+  border-radius: 18px 18px 18px 2px;
+  border-left: 3px solid #9d50bb; /* Purple accent */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  
+  animation: popInLeft 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.otherMessage .senderName {
+  text-align: left;
+  color: #9d50bb; /* Purple text for name */
+}
+
+/* Message Animations */
+@keyframes popInRight {
+  from { opacity: 0; transform: translateX(20px) scale(0.8); }
+  to { opacity: 1; transform: translateX(0) scale(1); }
+}
+@keyframes popInLeft {
+  from { opacity: 0; transform: translateX(-20px) scale(0.8); }
+  to { opacity: 1; transform: translateX(0) scale(1); }
+}
+
+/* --- 6. File Attachments (Holographic Card) --- */
+.fileMessage {
   display: flex;
-  gap: 12px;
-  margin-bottom: 15px;
+  align-items: center;
+  gap: 10px;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 8px 12px;
+  border-radius: 8px;
+  margin-top: 5px;
 }
 
-.Messageinput {
-  flex-grow: 1;
-  padding: 16px 24px;
-  font-size: 16px;
-  border: none;
-  border-radius: 50px;
-  outline: none;
-  background-color: rgba(255, 255, 255, 0.9);
-  box-shadow: 0 4px 15px rgba(0, 180, 216, 0.1);
-  transition: all 0.2s;
+.fileMessage p {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 150px;
 }
 
-.Messageinput:focus {
-  background-color: white;
-  box-shadow: 0 4px 20px rgba(0, 180, 216, 0.25);
-  transform: translateY(-1px);
-}
-
-.send {
-  padding: 0 35px;
-  font-size: 16px;
-  font-weight: 700;
+.fileMessage button {
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.4);
   color: white;
-  background: #0077B6;
-  border: none;
-  border-radius: 50px;
+  border-radius: 5px;
+  padding: 4px 10px;
+  font-size: 0.8rem;
   cursor: pointer;
   transition: all 0.2s;
-  box-shadow: 0 4px 15px rgba(0, 119, 182, 0.3);
+}
+
+.fileMessage button:hover {
+  background: white;
+  color: black;
+}
+
+/* --- 7. Input Area (Control Panel) --- */
+.message {
+  width: 100%;
+  max-width: 800px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  
+  background: rgba(255, 255, 255, 0.05);
+  padding: 10px 15px;
+  border-radius: 50px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+/* Attach Button */
+.attachButton {
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: transform 0.2s;
+  color: #00d2ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.attachButton:hover {
+  transform: scale(1.2) rotate(10deg);
+  text-shadow: 0 0 10px #00d2ff;
+}
+
+/* Text Input */
+.Messageinput {
+  flex-grow: 1;
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 16px;
+  font-family: 'Poppins', sans-serif;
+  outline: none;
+}
+
+.Messageinput::placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+/* Send Button */
+.send {
+  background: linear-gradient(90deg, #00f260, #0575E6);
+  border: none;
+  color: white;
+  font-family: 'Audiowide', cursive;
+  padding: 10px 25px;
+  border-radius: 30px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.3s;
+  box-shadow: 0 0 15px rgba(5, 117, 230, 0.4);
 }
 
 .send:hover {
-  background: #023E8A;
   transform: translateY(-2px);
+  box-shadow: 0 0 25px rgba(0, 242, 96, 0.6);
+}
+
+/* --- 8. Back Button --- */
+.backBox {
+  width: 100%;
+  max-width: 800px;
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
 }
 
 .backButton {
   background: transparent;
-  color: #0077B6;
-  border: 2px solid transparent;
-  font-size: 14px;
-  font-weight: 600;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.6);
+  padding: 8px 25px;
+  border-radius: 20px;
+  font-size: 0.8rem;
   cursor: pointer;
-  padding: 8px 20px;
-  border-radius: 50px;
-  transition: all 0.2s;
+  transition: all 0.3s;
+  font-family: 'Audiowide', cursive;
 }
 
 .backButton:hover {
-  background-color: rgba(255, 255, 255, 0.4);
-  color: #023E8A;
+  background: rgba(255, 255, 255, 0.1);
+  border-color: #fff;
+  color: #fff;
 }
 
-@media (max-width: 768px) {
-  .idContainer {
-    position: static;
-    margin-bottom: 10px;
-    width: 100%;
-    display: flex;
-    justify-content: center;
+/* --- Mobile Tweaks --- */
+@media (max-width: 600px) {
+  .heading {
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
   }
   
   .chatbox {
-    height: 55vh;
+    padding: 10px;
   }
   
-  .container {
-    justify-content: flex-start;
-    padding-top: 20px;
+  .myMessage, .otherMessage {
+    max-width: 85%;
   }
 }

@@ -2,13 +2,13 @@ import React, { useEffect, useState, useRef } from "react";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
 import styles from "./Room.module.css";
 import Gun from "gun";
-import { uploadFileApi, downloadFileApi } from "../api"; 
+import { uploadFileApi, downloadFileApi } from "../api";
 
 const Room = () => {
   const { roomId } = useParams();
   const location = useLocation();
   const navigate = useNavigate();
-  
+
   const [newMessage, setNewMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const [isConnected, setIsConnected] = useState(false);
@@ -16,7 +16,11 @@ const Room = () => {
   const [downloadingId, setDownloadingId] = useState(null);
 
   const [myUsername] = useState(() => {
-    return location.state?.username || sessionStorage.getItem("username") || "Anonymous";
+    return (
+      location.state?.username ||
+      sessionStorage.getItem("username") ||
+      "Anonymous"
+    );
   });
 
   useEffect(() => {
@@ -26,12 +30,12 @@ const Room = () => {
   }, [location.state]);
 
   const gunRef = useRef(null);
-  
+
   useEffect(() => {
     if (!gunRef.current) {
       gunRef.current = Gun({
         peers: ["http://localhost:3000/gun"],
-        localStorage: false, 
+        localStorage: false,
       });
     }
     setIsConnected(true);
@@ -54,38 +58,38 @@ const Room = () => {
 
     setIsUploading(true);
     try {
-        const result = await uploadFileApi(file);
-        const messageData = {
-            text: "", 
-            fileId: result.fileID,
-            fileName: result.fileMetaData.fileName,
-            sender: myUsername,
-            createdAt: Date.now(),
-            type: 'file_ref'
-        };
-        gunRef.current.get("rooms").get(roomId).get("messages").set(messageData);
+      const result = await uploadFileApi(file);
+      const messageData = {
+        text: "",
+        fileId: result.fileID,
+        fileName: result.fileMetaData.fileName,
+        sender: myUsername,
+        createdAt: Date.now(),
+        type: "file_ref",
+      };
+      gunRef.current.get("rooms").get(roomId).get("messages").set(messageData);
     } catch (error) {
-        alert("Upload Failed: " + error.message);
+      alert("Upload Failed: " + error.message);
     } finally {
-        setIsUploading(false);
-        e.target.value = null; 
+      setIsUploading(false);
+      e.target.value = null;
     }
   };
 
   const handleDownload = async (fileId, fileName) => {
     setDownloadingId(fileId);
     try {
-        const data = await downloadFileApi(fileId);
-        const link = document.createElement("a");
-        link.href = data.fileData;
-        link.download = fileName;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+      const data = await downloadFileApi(fileId);
+      const link = document.createElement("a");
+      link.href = data.fileData;
+      link.download = fileName;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
     } catch (error) {
-        alert("Download Failed: " + error.message);
+      alert("Download Failed: " + error.message);
     } finally {
-        setDownloadingId(null);
+      setDownloadingId(null);
     }
   };
 
@@ -95,7 +99,7 @@ const Room = () => {
       text: newMessage,
       sender: myUsername,
       createdAt: Date.now(),
-      type: 'text'
+      type: "text",
     };
     gunRef.current.get("rooms").get(roomId).get("messages").set(messageData);
     setNewMessage("");
@@ -105,44 +109,74 @@ const Room = () => {
     <div className={styles.container}>
       <div className={styles.heading}>
         <h2>Room: {roomId}</h2>
-        <div style={{display: 'flex', gap: '10px'}}>
-             <p className={styles.subHeading}>Logged in as: {myUsername}</p>
-             <span style={{
-                 height: '10px', width: '10px', 
-                 backgroundColor: isConnected ? '#00ff00' : '#ff0000', 
-                 borderRadius: '50%'
-             }}></span>
+        <div style={{ display: "flex", gap: "10px" }}>
+          <p className={styles.subHeading}>Logged in as: {myUsername}</p>
+          <span
+            style={{
+              height: "10px",
+              width: "10px",
+              backgroundColor: isConnected ? "#00ff00" : "#ff0000",
+              borderRadius: "50%",
+            }}
+          ></span>
         </div>
       </div>
 
       <div className={styles.chatbox}>
         {messages.map((msg) => (
-          <div key={msg.id} className={msg.sender === myUsername ? styles.myMessage : styles.otherMessage}>
+          <div
+            key={msg.id}
+            className={
+              msg.sender === myUsername ? styles.myMessage : styles.otherMessage
+            }
+          >
             <span className={styles.senderName}>{msg.sender}</span>
-            {msg.type === 'file_ref' ? (
-                <div className={styles.fileMessage}>
-                    <p>📎 {msg.fileName}</p>
-                    <button onClick={() => handleDownload(msg.fileId, msg.fileName)} disabled={downloadingId === msg.fileId}>
-                        {downloadingId === msg.fileId ? "Downloading..." : "Download"}
-                    </button>
-                </div>
+            {msg.type === "file_ref" ? (
+              <div className={styles.fileMessage}>
+                <p>📎 {msg.fileName}</p>
+                <button
+                  onClick={() => handleDownload(msg.fileId, msg.fileName)}
+                  disabled={downloadingId === msg.fileId}
+                >
+                  {downloadingId === msg.fileId ? "Downloading..." : "Download"}
+                </button>
+              </div>
             ) : (
-                <p>{msg.text}</p>
+              <p>{msg.text}</p>
             )}
           </div>
         ))}
       </div>
 
       <div className={styles.message}>
-        <input type="file" id="fileInput" style={{display: 'none'}} onChange={handleFileSelect}/>
-        <button className={styles.attachButton} onClick={() => document.getElementById('fileInput').click()} disabled={isUploading}>
-            {isUploading ? "⏳" : "📎"}
+        <input
+          type="file"
+          id="fileInput"
+          style={{ display: "none" }}
+          onChange={handleFileSelect}
+        />
+        <button
+          className={styles.attachButton}
+          onClick={() => document.getElementById("fileInput").click()}
+          disabled={isUploading}
+        >
+          {isUploading ? "⏳" : "📎"}
         </button>
-        <input className={styles.Messageinput} type="text" value={newMessage} onChange={(e) => setNewMessage(e.target.value)} onKeyDown={(e) => e.key === "Enter" && handleSend()}/>
-        <button className={styles.send} onClick={handleSend}>Send</button>
+        <input
+          className={styles.Messageinput}
+          type="text"
+          value={newMessage}
+          onChange={(e) => setNewMessage(e.target.value)}
+          onKeyDown={(e) => e.key === "Enter" && handleSend()}
+        />
+        <button className={styles.send} onClick={handleSend}>
+          Send
+        </button>
       </div>
       <div className={styles.backBox}>
-        <button className={styles.backButton} onClick={() => navigate("/")}>Back</button>
+        <button className={styles.backButton} onClick={() => navigate("/")}>
+          Back
+        </button>
       </div>
     </div>
   );
