@@ -31,10 +31,6 @@ function JoinRoom() {
     }
   };
 
-  const handleBack = () => {
-    navigate("/");
-  };
-
   return (
     <div className={styles.join}>
       <div className={styles.body}>
@@ -72,10 +68,6 @@ function JoinRoom() {
             Join Room
           </button>
         </form>
-
-        <button onClick={handleBack} className={styles.back}>
-          Back to Home
-        </button>
       </div>
     </div>
   );

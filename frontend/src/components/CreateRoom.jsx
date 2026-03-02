@@ -27,10 +27,6 @@ const CreateRoom = () => {
     }
   };
 
-  const handleBack = () => {
-    navigate("/");
-  };
-
   return (
     <div className={styles.container}>
       <div className={styles.Create}>
@@ -60,11 +56,6 @@ const CreateRoom = () => {
             </button>
           </div>
         </form>
-      </div>
-      <div>
-        <button className={styles.backButton} onClick={handleBack}>
-          Back
-        </button>
       </div>
     </div>
   );
