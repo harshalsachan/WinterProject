@@ -87,3 +87,27 @@
     padding: 10px;
   }
 }
+
+@media (max-width: 480px){
+  .buttonGroup {
+  display: flex;
+  gap: 7px;
+  align-items: center;
+}
+.create, .join {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.15s ease-in-out;
+  background-color: #ffffff;
+  color: #111111;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+}
