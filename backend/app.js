@@ -24,8 +24,7 @@ const server = app.listen(PORT, () => {
 
 const gun = Gun({
   web: server,
-  file: 'data/gun',
-  peers: ['https://gun-manhattan.herokuapp.com/gun']
+  file: 'radata'
 });
 
 global.gun = gun;
