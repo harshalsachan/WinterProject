@@ -1,4 +1,4 @@
-const API_BASE_URL = 'http://localhost:3000'; 
+const API_BASE_URL = 'https://winterproject-backend-cpgt.onrender.com":3000'; 
 
 const toBase64 = (file) => new Promise((resolve, reject) => {
   const reader = new FileReader();
