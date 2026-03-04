@@ -1,7 +1,7 @@
 import Header from "./Header.jsx";
 import Footer from "./Footer.jsx";
 import React, { useEffect, useState, useRef } from "react";
-import { useParams, useLocation } from "react-router-dom"; // Removed useNavigate
+import { useParams, useLocation } from "react-router-dom";
 import styles from "./Room.module.css";
 import Gun from "gun";
 import { uploadFileApi, downloadFileApi } from "../api";
@@ -12,7 +12,7 @@ const Room = () => {
 
   const [newMessage, setNewMessage] = useState("");
   const [messages, setMessages] = useState([]);
-  const [activeMembers, setActiveMembers] = useState({}); // New Presence State
+  const [activeMembers, setActiveMembers] = useState({});
   const [isConnected, setIsConnected] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
   const [downloadingId, setDownloadingId] = useState(null);
@@ -33,14 +33,12 @@ const Room = () => {
 
   const gunRef = useRef(null);
 
- // Initialize Gun and Message Sync
   useEffect(() => {
     if (!gunRef.current) {
-      // Mechanically pull the exact same environment variable used in api.jsx
       const BASE_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
-      
+
       gunRef.current = Gun({
-        peers: [`${BASE_URL}/gun`], 
+        peers: [`${BASE_URL}/gun`],
         localStorage: false,
       });
     }
@@ -48,8 +46,7 @@ const Room = () => {
 
     const roomRef = gunRef.current.get("rooms").get(roomId);
     const messagesRef = roomRef.get("messages");
-    
-   
+
     messagesRef.map().on((data, id) => {
       if (data && (data.text || data.fileId)) {
         setMessages((prev) => {
@@ -61,16 +58,13 @@ const Room = () => {
     });
   }, [roomId]);
 
-  // Presence System Logic
   useEffect(() => {
     if (!gunRef.current) return;
 
     const presenceRef = gunRef.current.get("rooms").get(roomId).get("presence");
 
-    // 1. Set self as online
     presenceRef.get(myUsername).put({ online: true, lastSeen: Date.now() });
 
-    // 2. Listen for network presence changes
     presenceRef.map().on((data, username) => {
       if (data) {
         setActiveMembers((prev) => ({
@@ -80,13 +74,11 @@ const Room = () => {
       }
     });
 
-    // 3. Native Browser Tab Close Edge-Case Handling
     const handleUnload = () => {
       presenceRef.get(myUsername).put({ online: false });
     };
     window.addEventListener("beforeunload", handleUnload);
 
-    // 4. React Component Unmount Cleanup
     return () => {
       presenceRef.get(myUsername).put({ online: false });
       window.removeEventListener("beforeunload", handleUnload);
@@ -146,7 +138,6 @@ const Room = () => {
     setNewMessage("");
   };
 
-  // Convert presence object map to array and filter only online users
   const onlineUsers = Object.entries(activeMembers)
     .filter(([_, isOnline]) => isOnline)
     .map(([username]) => username);
@@ -156,8 +147,6 @@ const Room = () => {
       <Header />
       <div className={styles.container}>
         <div className={styles.splitLayout}>
-          
-          {/* LEFT COLUMN: Sidebar */}
           <div className={styles.sidebar}>
             <div className={styles.roomInfo}>
               <h2>Room</h2>
@@ -169,7 +158,7 @@ const Room = () => {
                     width: "10px",
                     backgroundColor: isConnected ? "#00ff00" : "#ff0000",
                     borderRadius: "50%",
-                    display: "inline-block"
+                    display: "inline-block",
                   }}
                 ></span>
                 <span className={styles.subHeading}>
@@ -182,7 +171,10 @@ const Room = () => {
               <h3>Active Members ({onlineUsers.length})</h3>
               <ul className={styles.memberList}>
                 {onlineUsers.map((user) => (
-                  <li key={user} className={user === myUsername ? styles.myUserItem : ""}>
+                  <li
+                    key={user}
+                    className={user === myUsername ? styles.myUserItem : ""}
+                  >
                     <span className={styles.statusDot}></span>
                     {user} {user === myUsername && "(You)"}
                   </li>
@@ -191,7 +183,6 @@ const Room = () => {
             </div>
           </div>
 
-          {/* RIGHT COLUMN: Main Chat Area */}
           <div className={styles.mainChat}>
             <div className={styles.chatbox}>
               {messages.map((msg) => (
@@ -250,10 +241,9 @@ const Room = () => {
               </button>
             </div>
           </div>
-
         </div>
       </div>
-      <Footer></Footer>
+      <Footer />
     </>
   );
 };

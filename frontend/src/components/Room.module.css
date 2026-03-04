@@ -1,17 +1,11 @@
-/* Room.module.css */
-
-/* 1. THE ROOT LOCK & BACKGROUND ALIGNMENT */
 .container {
-  /* Assumes your Header and Footer equal 60px combined. Adjust if necessary */
   height: calc(100vh - 60px); 
   width: 100%;
   padding: 20px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  overflow: hidden; /* Strictly prohibits the parent document from scrolling */
-  
-  /* Applying the global background */
+  overflow: hidden;
   background-image: url("../assets/bg.png"); 
   background-size: cover;      
   background-position: center; 
@@ -19,7 +13,6 @@
   font-family: 'Poppins', sans-serif;
 }
 
-/* 2. THE SPLIT LAYOUT ENGINE */
 .splitLayout {
   flex: 1; 
   display: flex;
@@ -28,11 +21,10 @@
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  min-height: 0; /* CRITICAL: Forces flex children to respect parent bounds */
+  min-height: 0;
   animation: floatUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
 }
 
-/* LEFT COLUMN: Sidebar (Floating Cards) */
 .sidebar {
   flex: 0 0 300px; 
   display: flex;
@@ -81,7 +73,7 @@
 }
 
 .activeMembersBox {
-  flex: 1; /* Allows the member list to fill remaining sidebar height */
+  flex: 1;
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -123,7 +115,7 @@
 .statusDot {
   height: 8px;
   width: 8px;
-  background-color: #10b981; /* Standard semantic success green */
+  background-color: #10b981;
   border-radius: 50%;
   box-shadow: 0 0 8px rgba(16, 185, 129, 0.4);
 }
@@ -135,7 +127,6 @@
   font-weight: 600 !important;
 }
 
-/* RIGHT COLUMN: Main Chat Engine */
 .mainChat {
   flex: 1; 
   display: flex;
@@ -149,7 +140,6 @@
   overflow: hidden; 
 }
 
-/* CHATBOX INTERNAL SCROLL MECHANICS */
 .chatbox {
   flex: 1; 
   min-height: 0; 
@@ -161,7 +151,6 @@
   scroll-behavior: smooth;
 }
 
-/* Custom scrollbar to match the clean aesthetic */
 .chatbox::-webkit-scrollbar, .memberList::-webkit-scrollbar {
   width: 6px;
 }
@@ -173,7 +162,6 @@
   border-radius: 10px;
 }
 
-/* BUBBLE MECHANICS */
 .senderName {
   font-size: 0.75rem;
   color: #6c757d;
@@ -185,7 +173,7 @@
 .myMessage {
   align-self: flex-end;
   max-width: 70%;
-  background-color: #01bbff; /* Brand primary blue */
+  background-color: #01bbff;
   color: white;
   padding: 12px 16px;
   border-radius: 16px 16px 0px 16px;
@@ -258,7 +246,6 @@
   transform: translateY(-1px);
 }
 
-/* INPUT AREA MECHANICS */
 .messageInputArea {
   flex-shrink: 0; 
   width: 100%;
@@ -355,14 +342,82 @@
 }
 
 @media (max-width: 480px) {
+  .container {
+    padding: 10px;
+  }
+  .splitLayout {
+    gap: 10px;
+  }
+
   .sidebar {
     flex-direction: column;
     height: auto;
+    gap: 10px;
   }
+  
+  .roomInfo, .activeMembersBox {
+    padding: 12px 16px;
+    border-radius: 12px;
+  }
+  
+  .roomCode {
+    font-size: 1.3rem;
+    margin: 0 0 5px 0;
+  }
+  
   .activeMembersBox {
-    max-height: 200px;
+    max-height: 110px; 
   }
-  .messageInputArea {
+  
+  .activeMembersBox h3 {
+    font-size: 0.95rem;
+    margin-bottom: 8px;
+    padding-bottom: 8px;
+  }
+  
+  .memberList li {
+    padding: 6px 10px;
+    font-size: 0.85rem;
+  }
+
+  .mainChat {
+    border-radius: 16px;
+  }
+  
+  .chatbox {
     padding: 12px;
+    gap: 10px;
+  }
+
+  .myMessage, .otherMessage {
+    max-width: 88%; 
+    padding: 10px 14px;
+    font-size: 0.95rem;
+  }
+  
+  .fileMessage p {
+    max-width: 140px;
+  }
+
+  .messageInputArea {
+    padding: 10px;
+    gap: 8px;
+  }
+  
+  .attachButton {
+    font-size: 1.2rem;
+    padding: 6px;
+  }
+  
+  .Messageinput {
+    padding: 10px 14px;
+    font-size: 0.95rem;
+    border-radius: 8px;
+  }
+  
+  .send {
+    padding: 10px 16px;
+    font-size: 0.95rem;
+    border-radius: 8px;
   }
 }
