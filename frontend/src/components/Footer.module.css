@@ -1,0 +1,104 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+
+.footer {
+  width: 100%;
+  background: linear-gradient(to top, rgba(7, 21, 70), rgb(188, 174, 193,0.9));
+  font-family: 'Poppins', sans-serif;
+  color: #2d2d2d;
+  padding: 40px 20px 20px 20px;
+  box-sizing: border-box;
+  margin-top: auto;
+  font-weight: 500;
+}
+
+.footerContent {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 40px;
+  margin-bottom: 40px;
+}
+
+.brandSection {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.brandName {
+  color: #1a1a1a;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+  letter-spacing: 0.5px;
+}
+
+.brandTagline {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin: 0;
+  max-width: 300px;
+  font-weight: 500;
+}
+
+.linkGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.linkGroup h4 {
+  color: #1a1a1a;
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 0 0 10px 0;
+}
+
+.linkGroup a {
+  color: #2d2d2d;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.2s ease;
+  font-weight: 500;
+}
+
+.linkGroup a:hover {
+  color: #00d2ff;
+  text-decoration: underline;
+}
+
+.footerBottom {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-top: 20px;
+  border-top: 1px solid #2d3136;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.footerBottom p {
+  margin: 0;
+  font-size: 0.85rem;
+  font-weight: 500;
+color:white;
+}
+
+@media (max-width: 900px) {
+  .footerContent {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .footerContent {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+  
+  .brandSection {
+    align-items: center;
+  }
+}

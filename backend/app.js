@@ -16,7 +16,7 @@ app.use('/room', roomRouter);
 app.use('/message', messRouter);
 app.use('/file', fileRouter);
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 const server = app.listen(PORT, () => {
   console.log('Server started on PORT:', PORT);

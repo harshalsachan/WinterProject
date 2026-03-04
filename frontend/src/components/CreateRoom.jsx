@@ -1,7 +1,9 @@
 import { useNavigate } from "react-router-dom";
-import styles from "./CreateRoom.module.css";
 import { useState } from "react";
+import styles from "./CreateRoom.module.css";
 import { createRoomApi } from "../api";
+import Header from "./Header.jsx";
+import Footer from "./Footer.jsx";
 
 const CreateRoom = () => {
   const navigate = useNavigate();
@@ -17,56 +19,56 @@ const CreateRoom = () => {
     try {
       const data = await createRoomApi(userName);
 
-      console.log("Room Created Successfully:", data);
+      if (!data || !data.roomCode) {
+        throw new Error("Server response is missing the roomCode property.");
+      }
 
+      console.log("Room Created Successfully:", data);
       navigate(`/room/${data.roomCode}`, { state: { username: userName } });
     } catch (error) {
-      alert("Error: " + error.message);
+      const errorMessage =
+        error instanceof Error ? error.message : String(error);
+      alert("Failed to create room: " + errorMessage);
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleBack = () => {
-    navigate("/");
-  };
-
   return (
-    <div className={styles.container}>
-      <div className={styles.Create}>
-        <form onSubmit={handleCreateRoom}>
-          <div className={styles.username}>
-            <label htmlFor="username" className={styles.userlabel}>
-              Enter Username
-            </label>
-            <input
-              type="text"
-              className={styles.userinput}
-              id="username"
-              value={userName}
-              onChange={(e) => setUserName(e.target.value)}
-              placeholder="Enter your name"
-              required
-            />
-          </div>
+    <>
+      <Header />
+      <div className={styles.container}>
+        <div className={styles.card}>
+          <form onSubmit={handleCreateRoom} className={styles.formLayout}>
+            <div className={styles.inputGroup}>
+              <label htmlFor="username" className={styles.userlabel}>
+                Enter Username
+              </label>
+              <input
+                type="text"
+                className={styles.userinput}
+                id="username"
+                value={userName}
+                onChange={(e) => setUserName(e.target.value)}
+                placeholder="e.g., Tony Stark"
+                required
+                disabled={isLoading}
+              />
+            </div>
 
-          <div style={{ marginTop: "20px" }}>
             <button
               type="submit"
               className={styles.createButton}
               disabled={isLoading}
             >
-              {isLoading ? "Creating..." : "Create & Open Room"}
+              {isLoading ? "Initiating..." : "Create & Open Room"}
             </button>
-          </div>
-        </form>
+            <p className={styles.note}> 100% secure and login free</p>
+          </form>
+        </div>
       </div>
-      <div>
-        <button className={styles.backButton} onClick={handleBack}>
-          Back
-        </button>
-      </div>
-    </div>
+      <Footer />
+    </>
   );
 };
 
