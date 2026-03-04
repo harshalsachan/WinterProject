@@ -33,11 +33,14 @@ const Room = () => {
 
   const gunRef = useRef(null);
 
-  // Initialize Gun and Message Sync
+ // Initialize Gun and Message Sync
   useEffect(() => {
     if (!gunRef.current) {
+      // Mechanically pull the exact same environment variable used in api.jsx
+      const BASE_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
+      
       gunRef.current = Gun({
-        peers: ["http://localhost:3000/gun"],
+        peers: [`${BASE_URL}/gun`], 
         localStorage: false,
       });
     }
@@ -45,7 +48,8 @@ const Room = () => {
 
     const roomRef = gunRef.current.get("rooms").get(roomId);
     const messagesRef = roomRef.get("messages");
-
+    
+   
     messagesRef.map().on((data, id) => {
       if (data && (data.text || data.fileId)) {
         setMessages((prev) => {
