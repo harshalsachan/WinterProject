@@ -18,6 +18,10 @@ app.use('/file', fileRouter);
 
 const PORT = process.env.PORT || 3000;
 
+app.get('/ping', (req, res) => {
+  res.status(200).json({ status: 'awake', time: Date.now() });
+});
+
 const server = app.listen(PORT, () => {
   console.log('Server started on PORT:', PORT);
 });
