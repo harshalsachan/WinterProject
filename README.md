@@ -9,12 +9,12 @@
 A peer-to-peer (P2P) chatting platform that enables secure, decentralized communication between users. The system supports real-time messaging, file sharing, and uses data compression algorithms to efficiently break down files into smaller parts for transfer via GunJS. The goal is to provide a privacy-focused, serverless communication tool that is lightweight and scalable.
 
 ## 🖼️ Screenshots
-![Screenshot 1](./Screenshots/1.png)  
-![Screenshot 2](./Screenshots/2.png)  
-![Screenshot 3](./Screenshots/3.png)  
-![Screenshot 4](./Screenshots/4.png)  
-![Screenshot 5](./Screenshots/5.png)  
-![Screenshot 6](./Screenshots/6.png)
+![Screenshot 1](./Screenshots/1.jpeg)  
+![Screenshot 2](./Screenshots/2.jpeg)  
+![Screenshot 3](./Screenshots/3.jpeg)  
+![Screenshot 4](./Screenshots/4.jpeg)  
+![Screenshot 5](./Screenshots/5.jpeg)  
+![Screenshot 6](./Screenshots/6.jpeg)
 
 ## 🌐 Hosted URL
 https://winterproject-4u1.pages.dev/
