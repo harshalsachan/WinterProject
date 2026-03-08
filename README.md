@@ -32,7 +32,8 @@ https://winterproject-4u1.pages.dev/
 - Secure authentication with BCrypt  
 - ExpressJS for routing and API endpoints  
 - URL-parser for handling dynamic routes  
-- Data compression algorithms to split files into smaller chunks for efficient transfer  
+- Data compression algorithms to split files into smaller chunks for efficient transfer
+- Paco for compression
 
 ## 🛠️ Tech Stack & Concepts Used
 **Backend**  
