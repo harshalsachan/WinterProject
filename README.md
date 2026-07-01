@@ -17,7 +17,7 @@ A peer-to-peer (P2P) chatting platform that enables secure, decentralized commun
 ![Screenshot 6](./Screenshots/6.jpeg)
 
 ## 🌐 Hosted URL
-https://winterproject-4u1.pages.dev/
+https://zapshare-aec.pages.dev/
 
 ## ✨ Features Implemented
 
